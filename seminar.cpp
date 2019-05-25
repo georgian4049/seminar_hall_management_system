@@ -1,3 +1,5 @@
+//author::ayush shekhar,cadet4049,github.com/georgian4049
+
 #include<string>
 #include<iostream>
 #include<cstring>
@@ -7,7 +9,7 @@
 #include<iomanip>
 
 
-int official(int a)
+char official(int a)
 {  
 	if(a==11)
 	{
@@ -16,7 +18,7 @@ int official(int a)
 
 	if(a==12)
 	{
-		std::cout<<"HOD cSE";
+		std::cout<<"HOD CSE";
 	}
 
 	if(a==13)
@@ -48,7 +50,7 @@ int official(int a)
 	{
 		std::cout<<"CHAIRMAN";
 	}
-return 0;
+return '.' ;
 }
 
 
@@ -147,8 +149,42 @@ public: void writedata(int a,char file_name[30]);
 		void display(char file_name[30]);
 		void search(char file_name[30]);
 		void modify(int a,char file_name[30]);
-
 };
+
+int time_checker(int starttime1,int endtime1,int i,int *starttime,int *endtime)
+{	
+	if(starttime1<8 || starttime1>16 || endtime1>16 || endtime1<8 || starttime1==endtime1 || endtime1<starttime1)
+	{
+		cout<<"thats not working time. try again \n";
+		return 0;
+	}
+	else{
+		int cou=0;
+		for(int k=0;k<i;k++)
+		{
+			if(!((starttime1<starttime[k] && endtime1<=starttime[k]) || (starttime1>=endtime[k] && endtime1>endtime[k]) ))
+			{
+				
+				cou++;
+				
+
+			}
+
+			
+		}
+		if(cou>0)
+		{
+			cout<<"\nseminar hall will be busy during this time slot\n";
+			return 0;
+		}
+		else
+			{
+				return 1;
+			}
+		}
+return 0;
+}
+
 
 void seminar1::writedata(int a,char file_name[30])
 {
@@ -158,6 +194,7 @@ void seminar1::writedata(int a,char file_name[30])
 	int tot_slots_count=0;
 	r.id=a;
 	int count=0;
+	int starttime1,endtime1;
 	record s;
 	char date_list[100][15];
 	char time_list[100][15];
@@ -203,52 +240,19 @@ void seminar1::writedata(int a,char file_name[30])
 	{
 		cout<<"\t no time slots booked";
 	}
-
-
-	int flag=0;
-	while(flag==0)
+	else {
+		do
 	{
 	cout<<"\nEnter Time Slot (From - To):\t";
 	cin>>r.time;
-	int starttime1,endtime1;
+
 	sscanf(r.time,"%d-%d",&starttime1,&endtime1);
-	if(starttime1<8 || starttime1>16 || endtime1>16 || endtime1<8 || starttime1==endtime1 || endtime1<starttime1)
-	{
-		cout<<"thats not working time. try again \n";
-	}
-
-	else if(tot_slots_count==0)
-	{  
-		flag=1;
-		break;
-	}
-
-	else{
-		count=0;
-		for(int k=0;k<i;k++)
-		{
-			if((starttime[k]<starttime1 && endtime[k]<endtime1) ||(starttime[k]>starttime1 && endtime[k]>endtime1)||(endtime1<=starttime[k] && starttime1<starttime[k])||(starttime1>=endtime[k] && endtime1>endtime[k]))
-			{
-				
-			count=count+1;
-			}
-			else
-			{
-				count=count-1;
-			}
-			
-		}
-		if(count>0)
-		{
-			flag=1;
-		}
-		else{
-			cout<<"\nseminar hall will be busy during this time slot\n";
-		}
-
-	}
+	
+}while(!(time_checker(starttime1,endtime1,i,starttime,endtime)));
 
 }
+
+
 	cout<<"\nEnter Branch:";
 	cin>>r.branch;
 	cout<<"\nEnter Discription:";
@@ -288,9 +292,6 @@ void seminar1::display(char file_name[30])
 		break;
 	}
 }
-
-
-
 	f.close();
 }
 }	
@@ -348,48 +349,45 @@ if(my_count==0)
 
 cout<<"\n\t\t\t\t you have booked seminar hall  as follows:\n";
 cout<<"Date\t\t"<<"time\t\t"<<"description\t\t"<<"branch\t\t\n";
+int c=1;
+cout << '|' << setw(4) << "s.no" << '|'<< setw(15) << "date" << '|'<< setw(10) << "time" << '|'<< setw(10) << "branch" << '|'<< setw(15) << "description" << '|'<< setw(16) << "id" << '|' << endl;
+
 for(int k=0;k<i;k++)
 {
-	if(id[k]<=a)
+	if(id[k]==a)
 	{
-	cout<<date_list[k]<<"\t\t";
-	cout<<time_list[k]<<"\t\t";
-cout<<description[k]<<"\t\t";
-cout<<branch[k]<<"\t\t";
-cout<<official(id[k])<<endl;
+	cout << '|' << setw(4) << c++ << '|'<< setw(15) << date_list[k] << '|'<< setw(10) <<time_list[k] << '|'<< setw(10) << branch[k] << '|'<< setw(15) << description[k] << '|'<< setw(16) << official(id[k]) << '|' << endl;
+
 }
 }
 	}
 
 int count_booking;
 char date_mod[15];
-cout<<"\n\t\t\t\tenter the date you want to do modification:\t"<<endl;
+cout<<"\n\t\t\t\tenter the date you want to do modification:\t";
 cin>>date_mod;
-
+int c=1;
+cout << '|' << setw(4) << "s.no" << '|'<< setw(15) << "date" << '|'<< setw(10) << "time" << '|'<< setw(10) << "branch" << '|'<< setw(15) << "description" << '|'<< setw(16) << "id" << '|' << endl;
+	
 for(int k=0;k<i;k++)
 {
-	if(id[k]<=a && strcmp(date_mod,date_list[k])==0)
+	if(strcmp(date_mod,date_list[k])==0)
 	{
-	cout<<date_list[k]<<"\t\t";
-	cout<<time_list[k]<<"\t\t";
-cout<<description[k]<<"\t\t";
-cout<<branch[k]<<"\t\t";
-cout<<official(id[k])<<endl;
-count_booking++;
+		cout << '|' << setw(4) << c++ << '|'<< setw(15) << date_list[k] << '|'<< setw(10) <<time_list[k] << '|'<< setw(10) << branch[k] << '|'<< setw(15) << description[k] << '|'<< setw(16) << official(id[k]) << '|' << endl;
+
 }
 }
 char get_time[15];
-if(count_booking==0)
-{
-	cout<<"\n\t\t\t\tno bookings done on this day:\t";
-}
-else
-{
+
+
 	again_time_slot:cout<<"\n\t\t\t\tenter the times-lot you want to do modification:\t";
 	cin>>get_time;
+	
 	for(int k=0;k<i;k++)
 {
-	if(a>10 && id[k]!=a && strcmp(date_mod,date_list[k])==0 && strcmp(get_time,time_list[k])==0)
+
+
+if(((a>10 && id[k]!=a )|| (a<id[k] && id[k]<10 ))&& strcmp(date_mod,date_list[k])==0 && strcmp(get_time,time_list[k])==0)
 	{
 		cout<<"\n\t\t\t\t you cannot modify this time\n";
 		cout<<"\n\t\t\t\tto exit type y else n:\n";
@@ -411,10 +409,7 @@ else
 
 	
 	}
-	else if(strcmp(get_time,time_list[k])==0)
-	{
-		time_cnt++;
-	}
+/*
 	if(time_cnt==0)
 	{
 		cout<<"\n\t\t\t\tno such time slot\n";
@@ -436,7 +431,8 @@ else
 		}
 
 	}
-	if((id[k]<=a && a<10) && strcmp(date_mod,date_list[k])==0 && strcmp(get_time,time_list[k])==0)
+	*/
+	if(((id[k]<=a && a<10)||(id[k]>10 && a<10)|| (id[k]==a))&& strcmp(date_mod,date_list[k])==0 && strcmp(get_time,time_list[k])==0)
 	{
 		cout<<"old date : \t ";
 	cout<<date_list[k]<<"\n";
@@ -476,11 +472,8 @@ goto update_failed;
 		
 	}
 }
-
-
-
 }
-}
+
 }
 record rr[10];
 for(int k=0;k<i;k++)
